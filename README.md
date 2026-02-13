@@ -3,7 +3,6 @@
 SigmaGPT is a production-ready, multi-user AI chat application built with Next.js 15. It delivers a fluid, responsive experience similar to leading LLM interfaces, featuring secure data isolation and robust error handling.
 
 ![Project Status](https://img.shields.io/badge/status-active-success.svg)
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## 🚀 Features
 
