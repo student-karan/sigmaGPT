@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
       await Thread.findByIdAndUpdate(thread.id, {
         $pop: { messages: 1 } // Remove the last added message (the user's prompt)
       });
-
       throw new NextError(503, "AI service is currently overloaded. Your message wasn't saved. Please try again in a moment.");
     }
 

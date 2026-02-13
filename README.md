@@ -68,5 +68,3 @@ SigmaGPT is a production-ready, multi-user AI chat application built with Next.j
    ```bash
    npm run dev
    ```
-
-5. **Open [http://localhost:3000](http://localhost:3000)** to view the app.
