@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       newThreadId: threadId ?? thread.id,
     };
     if (!threadId) {
-      refreshHome(); // Revalidate home path to show new thread immediately
+      await refreshHome(); // Revalidate home path to show new thread immediately
     }
     return new Response(JSON.stringify(responseBody), {
       status: 200,
