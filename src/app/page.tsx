@@ -12,14 +12,6 @@ export default async function Home() {
     return <LandingPage />;
   }
   
-  // 2. If authenticated, fetch their threads
-  const threads = await getallThreads();
-  
-  // 3. If they have history, redirect to the most recent one (threads[0] is sorted by updatedAt)
-  if (threads.length > 0) {
-    redirect(`/chats/${threads[0].id}`);
-  }
-
   // 4. If they have no threads, show the empty Home Page
   return <HomePage />;
 }

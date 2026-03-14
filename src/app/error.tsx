@@ -2,7 +2,7 @@
 import React from 'react'
 import NextError from '@/lib/errorclass';
 
-const Error = ({ error }: { error: Error & { digest?: string } }) => {
+const Error = ({ error }: { error: Error}) => {
   const isNextError = error instanceof NextError;
 
   return (

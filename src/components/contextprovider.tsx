@@ -17,8 +17,6 @@ export type appContext = {
   refreshHome: number;
   isSettingNewChat: boolean;
   latestReply: string | null;
-  currThread : string | null,
-  setcurrThread : Dispatch<React.SetStateAction<string | null>>;
   setLatestReply: Dispatch<React.SetStateAction<string | null>>;
   setisSettingNewChat: Dispatch<React.SetStateAction<boolean>>;
   setInput: Dispatch<React.SetStateAction<string>>;
@@ -45,8 +43,6 @@ export const Context = createContext<appContext>({
   input: "",
   isSettingNewChat: false,
   latestReply: null,
-  currThread : "",
-  setcurrThread : ()=>{},
   setLatestReply: () => {},
   setisSettingNewChat: () => {},
   setInput: () => {},
@@ -71,7 +67,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [chats, setChats] = useState<Message[]>([]);
   const [latestReply, setLatestReply] = useState<string | null>(null);
   const [refreshHome, setRefreshHome] = useState<number>(0);
-  const [currThread,setcurrThread] = useState<string | null>(null);
   const [isSendingPrompt, setisSendingPrompt] = useState(false);
   const [isSettingNewChat, setisSettingNewChat] = useState(false);
 
@@ -94,8 +89,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
         setLatestReply,
         reply,
         setreply,
-        currThread,
-        setcurrThread,
         isSendingPrompt,
         setisSendingPrompt,
         isSettingNewChat,

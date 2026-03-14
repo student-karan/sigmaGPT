@@ -1,10 +1,11 @@
 import "dotenv/config";
 import fetchGeminiResponse from "@/lib/gemini";
-import { addMessageToThread, getOrCreateThread, deleteThread } from "@/lib/db";
+import { addMessageToThread, getOrCreateThread } from "@/lib/db";
 import { NextRequest } from "next/server";
 import { thread } from "@/types/types";
 import NextError from "@/lib/errorclass";
-import Thread from "@/models/Thread"; // Import model directly for cleanup
+import Thread from "@/models/Thread";
+import { refreshHome } from "@/actions/server-actions";
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,7 +47,9 @@ export async function POST(req: NextRequest) {
       reply: assistantreply,
       newThreadId: threadId ?? thread.id,
     };
-
+    if (!threadId) {
+      refreshHome(); // Revalidate home path to show new thread immediately
+    }
     return new Response(JSON.stringify(responseBody), {
       status: 200,
       headers: { "Content-type": "application/json" },

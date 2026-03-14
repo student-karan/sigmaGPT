@@ -5,7 +5,6 @@ import { Context } from "../contextprovider";
 import { Trash } from "lucide-react";
 import { thread } from "@/types/types";
 import { usePathname } from "next/navigation";
-import { setCookies, refreshHome } from "@/actions/server-actions";
 
 const ThreadComponent = ({ thread }: { thread: thread }) => {
   const path = usePathname();

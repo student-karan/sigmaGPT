@@ -48,17 +48,13 @@ export const getOrCreateThread = async ({ id, title }: { id?: string, title?: st
         const userId = await getAuthenticatedUserId();
         
         if (id && isValidObjectId(id)) {
-            const thread = await Thread.findOne({ _id: id, userId });
+            const thread = await Thread.findOne({ _id: id, userId })
+            .select("title createdAt updatedAt userId");
             if (thread) {
                 return {
-                    id: thread._id.toString(),
+                    id,
                     userId: thread.userId,
                     title: thread.title,
-                    messages: thread.messages.map((m: Message) => ({
-                        role: m.role as "User" | "Assistant",
-                        content: m.content,
-                        createdAt: m.createdAt
-                    })),
                     createdAt: thread.createdAt,
                     updatedAt: thread.updatedAt
                 };
@@ -75,7 +71,6 @@ export const getOrCreateThread = async ({ id, title }: { id?: string, title?: st
             id: newThread._id.toString(),
             userId: newThread.userId,
             title: newThread.title,
-            messages: [],
             createdAt: newThread.createdAt,
             updatedAt: newThread.updatedAt,
         };
@@ -116,7 +111,7 @@ export const getThreadmessages = async (id: string): Promise<Message[]> => {
     }
 }
 
-export const deleteThread = async (id: string): Promise<ThreadType> => {
+export const deleteThread = async (id: string) : Promise<void> => {
     try {
         await dbConnect();
         const userId = await getAuthenticatedUserId();
@@ -129,19 +124,7 @@ export const deleteThread = async (id: string): Promise<ThreadType> => {
         if (!deletedThread) {
             throw new NextError(404, "Thread not found or access denied.");
         }
-
-        return {
-            id: deletedThread._id.toString(),
-            userId: deletedThread.userId,
-            title: deletedThread.title,
-            messages: deletedThread.messages.map((m: Message) => ({
-                role: m.role as "User" | "Assistant",
-                content: m.content,
-                createdAt: m.createdAt
-            })),
-            createdAt: deletedThread.createdAt,
-            updatedAt: deletedThread.updatedAt,
-        };
+        
     } catch (error) {
         if (error instanceof NextError) throw error;
         throw new NextError(500, "Failed to delete thread.");

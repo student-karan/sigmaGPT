@@ -48,8 +48,9 @@ const Inputbar = () => {
         reply: string;
         newThreadId: string;
       };
-
+      
       if (!currThread) {
+        router.refresh();
         router.push(`/chats/${agentReply.newThreadId}`);
       }
       setreply(agentReply.reply);

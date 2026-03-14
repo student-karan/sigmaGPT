@@ -3,15 +3,19 @@ import React, { useContext, useState } from "react";
 import Buttonloader from "../Button-loader";
 import toast from "react-hot-toast";
 import { Context } from "../contextprovider";
+import { usePathname } from "next/navigation";
 
 const DeleteModal = ({
-  Delete,threadId
+  Delete,
+  threadId,
 }: {
-  Delete: () => Promise<{ success: boolean; wasActive: boolean }>;
+  Delete: () => Promise<{ success: boolean; message: string }>;
   threadId: string;
 }) => {
   const { router } = useContext(Context);
   const [isPending, setIspending] = useState(false);
+  const pathname = usePathname();
+  const isActive = pathname === `/chats/${threadId}`;
 
   function handleCancel() {
     router.back();
@@ -19,21 +23,21 @@ const DeleteModal = ({
 
   async function handledelete() {
     setIspending(true);
-    const res = (await Delete()) as { success: boolean; wasActive: boolean };
+    const res = await Delete();
     setIspending(false);
+
     if (res.success) {
       toast.success("Thread deleted successfully.");
-      if (res.wasActive) {
+      if (isActive) {
         router.push("/");
-        router.refresh();
       } else {
         router.back();
-        setTimeout(() => {
-          router.refresh();
-        }, 100);
+        setTimeout(() => router.refresh(), 100);
       }
     } else {
-      toast.error("Failed to delete the thread.");
+      toast.error(res.message);
+      router.back();
+      setTimeout(() => router.refresh(), 100);
     }
   }
 
