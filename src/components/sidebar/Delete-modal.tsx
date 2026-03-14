@@ -5,10 +5,7 @@ import toast from "react-hot-toast";
 import { Context } from "../contextprovider";
 import { usePathname } from "next/navigation";
 
-const DeleteModal = ({
-  Delete,
-  threadId,
-}: {
+const DeleteModal = ({ Delete, threadId }: {
   Delete: () => Promise<{ success: boolean; message: string }>;
   threadId: string;
 }) => {
@@ -27,7 +24,7 @@ const DeleteModal = ({
     setIspending(false);
 
     if (res.success) {
-      toast.success("Thread deleted successfully.");
+      toast.success(res.message);
       if (isActive) {
         router.push("/");
       } else {
